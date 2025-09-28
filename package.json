@@ -1,0 +1,17 @@
+{
+  "name": "qrgen",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["qr", "generator", "vanilla-js", "tailwind"],
+  "author": "",
+  "license": "ISC",
+  "description": "QR Code Generator - Vanilla JS + Tailwind CSS",
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}
