@@ -7,15 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
-        // Check if QRCode library is loaded
-        window.addEventListener('load', function() {
-            if (typeof QRCode === 'undefined') {
-                console.error('QRCode library failed to load')
-                document.getElementById('qr-preview').innerHTML = '<p class="text-red-500">QR 라이브러리 로드 실패</p>'
-            } else {
+        // Check QRCode library loading with timeout
+        let qrLibraryCheckTimeout
+        
+        function checkQRCodeLibrary() {
+            if (typeof QRCode !== 'undefined') {
                 console.log('QRCode library loaded successfully')
+                clearTimeout(qrLibraryCheckTimeout)
+                return true
             }
-        })
+            return false
+        }
+        
+        // Check immediately
+        if (!checkQRCodeLibrary()) {
+            // If not loaded yet, check periodically with timeout
+            let attempts = 0
+            const maxAttempts = 50 // 5 seconds max (50 * 100ms)
+            
+            qrLibraryCheckTimeout = setTimeout(function checkPeriodically() {
+                attempts++
+                
+                if (checkQRCodeLibrary()) {
+                    return // Success
+                }
+                
+                if (attempts >= maxAttempts) {
+                    // Final check failed
+                    console.error('QRCode library failed to load after timeout')
+                    const preview = document.getElementById('qr-preview')
+                    if (preview) {
+                        preview.innerHTML = '<p class="text-red-500">QR 라이브러리 로드 실패</p>'
+                    }
+                } else {
+                    // Check again in 100ms
+                    qrLibraryCheckTimeout = setTimeout(checkPeriodically, 100)
+                }
+            }, 100)
+        }
     </script>
 </head>
 <body class="bg-gray-50 min-h-screen">
