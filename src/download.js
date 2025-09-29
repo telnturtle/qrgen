@@ -1,4 +1,5 @@
 // Download Manager for QR Code PNG files
+import QRCode from 'qrcode'
 export class DownloadManager {
     constructor() {
         this.currentQRData = null
@@ -12,14 +13,14 @@ export class DownloadManager {
         this.currentQRData = qrData
         
         // Generate QR code as canvas
-        if (typeof QRCode !== 'undefined') {
+        if (QRCode && typeof QRCode.toCanvas === 'function') {
             QRCode.toCanvas(qrData.qrString, {
                 width: 400,
                 height: 400,
                 margin: 4,
                 color: {
-                    dark: '#000000',
-                    light: '#FFFFFF'
+                    dark: '#2D3436',
+                    light: '#F0F3F4'
                 }
             }, (error, canvas) => {
                 if (error) {
@@ -30,7 +31,7 @@ export class DownloadManager {
                 }
             })
         } else {
-            throw new Error('QR 라이브러리가 로드되지 않았습니다.')
+            throw new Error('QR 라이브러리를 사용할 수 없습니다.')
         }
     }
 

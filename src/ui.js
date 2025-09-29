@@ -1,4 +1,5 @@
 // UI Management and Event Handling
+import QRCode from 'qrcode'
 export class UI {
     constructor() {
         this.currentTab = 'url'
@@ -166,15 +167,8 @@ export class UI {
             return
         }
 
-        // Check if QRCode library is available with detailed error info
-        if (typeof QRCode === 'undefined') {
-            console.error('QRCode library not loaded - checking for network issues')
-            preview.innerHTML = '<p class="text-red-500">QR 라이브러리를 로드할 수 없습니다. 네트워크 연결을 확인해주세요.</p>'
-            return
-        }
-
-        // Additional check for QRCode.toCanvas method
-        if (typeof QRCode.toCanvas !== 'function') {
+        // Check QRCode module availability
+        if (!QRCode || typeof QRCode.toCanvas !== 'function') {
             console.error('QRCode.toCanvas method not available')
             preview.innerHTML = '<p class="text-red-500">QR 라이브러리 메서드를 사용할 수 없습니다</p>'
             return
@@ -189,8 +183,8 @@ export class UI {
                 height: 200,
                 margin: 2,
                 color: {
-                    dark: '#000000',
-                    light: '#FFFFFF'
+                    dark: '#2D3436',
+                    light: '#F0F3F4'
                 }
             }, (error, canvas) => {
                 if (error) {

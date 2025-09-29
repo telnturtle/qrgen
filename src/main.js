@@ -44,7 +44,7 @@ class App {
             this.ui.enableDownload()
         } catch (error) {
             console.error('QR generation failed:', error)
-            this.ui.showError('QR 코드 생성에 실패했습니다: ' + error.message)
+            // this.ui.showError('QR 코드 생성에 실패했습니다: ' + error.message)
         }
     }
 
